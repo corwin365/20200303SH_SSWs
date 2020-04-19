@@ -17,7 +17,7 @@ clearvars
 merge_gws;Settings.InFile = 'data/merged_zm_gws.mat';
 
 %which years are special?
-SpecialYears = [2002,2010,2019];%,2019];
+SpecialYears = [2002,2010,2019];
 
 %point out the minimum U time
 Minima(1) = 731486;
