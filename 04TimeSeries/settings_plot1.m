@@ -10,27 +10,27 @@ clearvars
 %% datasets
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Settings.DataSets{ 1} = 'MLS';
-Settings.InstName{ 1} = 'MLS';
-Settings.Variables{1} = 'O3';
-Settings.Units{    1} = 'ppm';
-Settings.FullName{ 1} = 'Ozone Mixing Ratio';
-Settings.Scale{    1} = 1e6;
+Settings.DataSets{ 1} = 'ECMWF';
+Settings.InstName{ 1} = 'ERA5';
+Settings.Variables{1} = 'U';
+Settings.Units{    1} = 'm/s';
+Settings.FullName{ 1} = 'Zonal Wind Speed';
 Settings.LatRange{ 1} = [-65,-55];
-Settings.Label{    1} = 'bottom';
+Settings.Label{    1} = 'top';
 Settings.Height{   1} = 30;
 
-Settings.DataSets{ 2} = 'MLSpw';
+Settings.DataSets{ 2} = 'MLS';
 Settings.InstName{ 2} = 'MLS';
-Settings.Variables{2} = 'Sum of PWs';
-Settings.Units{    2} = 'K';
-Settings.FullName{ 2} = 'Sum of PWs mode 1-3';
+Settings.Variables{2} = 'O3';
+Settings.Units{    2} = 'ppm';
+Settings.FullName{ 2} = 'Ozone Mixing Ratio';
+Settings.Scale{    2} = 1e6;
 Settings.LatRange{ 2} = [-65,-55];
-Settings.Label{    2} = 'top';
+Settings.Label{    2} = 'bottom';
 Settings.Height{   2} = 30;
 
 Settings.DataSets{ 3} = 'ECMWF';
-Settings.InstName{ 3} = 'ECMWF';
+Settings.InstName{ 3} = 'ERA5';
 Settings.Variables{3} = 'T';
 Settings.Units{    3} = 'K';
 Settings.FullName{ 3} = 'Temperature';
@@ -38,23 +38,32 @@ Settings.LatRange{ 3} = [-65,-55];
 Settings.Label{    3} = 'bottom';
 Settings.Height{   3} = 30;
 
-Settings.DataSets{ 4} = 'ECMWF';
-Settings.InstName{ 4} = 'ECMWF';
-Settings.Variables{4} = 'U';
-Settings.Units{    4} = 'm/s';
-Settings.FullName{ 4} = 'Zonal Wind Speed';
+Settings.DataSets{ 4} = 'MLS';
+Settings.InstName{ 4} = 'MLS';
+Settings.Variables{4} = 'T';
+Settings.Units{    4} = 'K';
+Settings.FullName{ 4} = 'Temperature';
 Settings.LatRange{ 4} = [-65,-55];
-Settings.Label{    4} = 'top';
+Settings.Label{    4} = 'bottom';
 Settings.Height{   4} = 30;
 
-Settings.DataSets{ 5} = 'SABER';
-Settings.InstName{ 5} = 'SABER';
-Settings.Variables{5} = 'MF';
-Settings.Units{    5} = 'mPa';
-Settings.FullName{ 5} = 'Momentum Flux';
-Settings.LatRange{ 5} = [-50,-45];
-Settings.Label{    5} = 'top';
+Settings.DataSets{ 5} = 'AIRS';
+Settings.InstName{ 5} = 'AIRS';
+Settings.Variables{5} = 'T';
+Settings.Units{    5} = 'K';
+Settings.FullName{ 5} = 'Temperature';
+Settings.LatRange{ 5} = [-65,-55];
+Settings.Label{    5} = 'bottom';
 Settings.Height{   5} = 30;
+
+Settings.DataSets{ 6} = 'SABER';
+Settings.InstName{ 6} = 'SABER';
+Settings.Variables{6} = 'T';
+Settings.Units{    6} = 'K';
+Settings.FullName{ 6} = 'Temperature';
+Settings.LatRange{ 6} = [-50,-45];
+Settings.Label{    6} = 'top';
+Settings.Height{   6} = 30;
 
 
 %% special years
@@ -62,7 +71,7 @@ Settings.Height{   5} = 30;
 
 %which years are special?
 %all other years from 2002 to 2019 that we have data for locally will be the background
-Settings.SpecialYears = [2002,2010,2019];%,2010];
+Settings.SpecialYears = 2010;%[2002,2010,2019];
 
 %point out the minimum U time for each year
 Settings.Minima(1) = 731486;

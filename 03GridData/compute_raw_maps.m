@@ -13,18 +13,17 @@
 % settings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%which year?
-Settings.Year = 2002;
+% %which year?
+% Settings.Year = 2002;
 
 %which dataset?
-
-Settings.DataSet = 'ECMWF';
+Settings.DataSet = 'AIRS';
 
 %gridding?
-Settings.LatScale    = -90:1.5:-30;
-Settings.LonScale    = -180:1.5:180;
+Settings.LatScale    = -90:5:-30;
+Settings.LonScale    = -180:5:180;
 Settings.TimeScale   = datenum(Settings.Year,1,1):1:datenum(Settings.Year,12,31);
-Settings.HeightScale = 20:10:60;
+Settings.HeightScale = 20:5:60;
 
 %data storage
 Settings.DataDir.Ecmwf = [LocalDataDir,'/ERA5/'];
