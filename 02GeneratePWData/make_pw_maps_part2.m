@@ -14,17 +14,17 @@ clearvars
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %where's the data
-SABER = load('pws_maps_SABER.mat');
+%  SABER = load('pws_maps_SABER.mat');
 MLS   = load('pws_maps_MLS.mat');
 
 %what modes?
 Modes = [1,2,3]; 
 
 %longitude grid?
-Lon = -180:5:180;
+Lon = -180:10:180;
 
 %levels?
-Levels = [30,40];
+Levels = 0:5:60;
 
 %latitude range?
 LatRange = [-90,-20];
@@ -37,7 +37,7 @@ SpecialYears = [2002,2010,2019];%,2010];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   
-  for iInst=1:1:2;
+  for iInst=2;%1:1:2;
     
     
     for Year=2002:1:2019;
@@ -99,7 +99,7 @@ SpecialYears = [2002,2010,2019];%,2010];
       Settings.LonScale    = Lon;
       Settings.TimeScale   = datenum(Year,1,1:1:365);
       Settings.HeightScale = Levels;
-      Settings.OutFile = ['../07Maps/data/rawmaps_',InstName,'pw_',num2str(Year),'.mat'];
+      Settings.OutFile = ['../data/rawmaps_',InstName,'pw_',num2str(Year),'.mat'];
       for iMode=1:1:numel(Modes);
         Settings.Vars{iMode} = {InstName,['PW mode ',num2str(Modes(iMode))],'K'};
       end;

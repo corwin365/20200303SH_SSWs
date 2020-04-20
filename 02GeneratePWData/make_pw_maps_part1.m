@@ -1,14 +1,14 @@
-clearvars
+%  clearvars
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% settings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Settings.Instrument = 'MLS';
+%  Settings.Instrument = 'MLS';
 Settings.TimeScale  = datenum(2002,1,1):1:datenum(2019,12,31);
-Settings.Heights    = 10:10:90;
-Settings.Modes      = 0:1:6;
+Settings.Heights    = 0:5:60;
+Settings.Modes      = 0:1:3;
 Settings.OutFile    = ['pws_maps_',Settings.Instrument,'.mat'];
 
 
@@ -49,8 +49,8 @@ for iDay=1:1:numel(Settings.TimeScale)
     zidx = closest(Data.PWs.Z,Settings.Heights(iLevel));
 
     %pull out and store amplitude and phase
-    Results(iLevel,:,:,iDay,1) = squeeze(Data.PWs.Amp(  :,zidx,:))';
-    Results(iLevel,:,:,iDay,2) = squeeze(Data.PWs.Phase(:,zidx,:))';
+    Results(iLevel,:,:,iDay,1) = squeeze(Data.PWs.Amp(  Settings.Modes+1,zidx,:))';
+    Results(iLevel,:,:,iDay,2) = squeeze(Data.PWs.Phase(Settings.Modes+1,zidx,:))';
 
     
   end; clear iLevel
