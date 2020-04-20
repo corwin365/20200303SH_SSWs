@@ -27,7 +27,7 @@ Settings.Units{    2} = 'K';
 Settings.FullName{ 2} = 'Sum of PWs mode 1-3';
 Settings.LatRange{ 2} = [-65,-55];
 Settings.Label{    2} = 'top';
-Settings.Height{   2} = 30;
+Settings.Height{   1} = 30;
 
 Settings.DataSets{ 3} = 'ECMWF';
 Settings.InstName{ 3} = 'ECMWF';
@@ -36,7 +36,7 @@ Settings.Units{    3} = 'K';
 Settings.FullName{ 3} = 'Temperature';
 Settings.LatRange{ 3} = [-65,-55];
 Settings.Label{    3} = 'bottom';
-Settings.Height{   3} = 30;
+Settings.Height{   1} = 30;
 
 Settings.DataSets{ 4} = 'ECMWF';
 Settings.InstName{ 4} = 'ECMWF';
@@ -77,6 +77,8 @@ Settings.SpecialColours(3,:) = [0,0,1];
 %% other
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%what height level?
+Settings.HeightLevel =  30;
 
 %what percentiles for the background shading? 
 Settings.Percentiles = linspace(0,100,10);

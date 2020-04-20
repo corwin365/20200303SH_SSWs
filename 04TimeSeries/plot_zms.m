@@ -10,6 +10,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% load and prep data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 Years = 2002:1:2019;
 TimeSeries = NaN(numel(Years),365,numel(Settings.DataSets));
@@ -59,7 +63,7 @@ for iDS = 1:1:numel(Settings.DataSets)
     clear Var iVar a
     
     %pull out height level
-    zidx = closest(Data.Settings.HeightScale,Settings.HeightLevel);
+    zidx = closest(Data.Settings.HeightScale,Settings.Height{iDS});
     Data.Results = Data.Results(:,:,zidx,:,:);
     clear zidx
     
@@ -108,7 +112,7 @@ for iVar=1:1:numel(Settings.DataSets)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   VarData = squeeze(TimeSeries(:,:,iVar));
   TimeScale = datenum(2002,1,1:1:365); %year is arbitrary
-  VarInfo = {Settings.DataSets{iVar},Settings.Variables{iVar} ,...
+  VarInfo = {Settings.InstName{iVar},Settings.Variables{iVar} ,...
              Settings.Units{iVar},Settings.FullName{iVar}};
  
   %scale?
@@ -219,16 +223,13 @@ for iVar=1:1:numel(Settings.DataSets)
   end
   
   text(datenum(2002,12,30),LabelShift.*(YLim(2)-YLim(1))+YLim(2)-0.65.*(YLim(2)-YLim(1)),[LatCentre,' mean'],'color','k','HorizontalAlignment','right')
-  %   text(datenum(2002,12,30),LabelShift.*(YLim(2)-YLim(1))+YLim(2)-0.65.*(YLim(2)-YLim(1)),[num2str(round(Settings.HeightLevel)),'km'],'color','k','HorizontalAlignment','right')
-  
+
   %what years?
-  switch VarInfo{1};
-    case 'ERA5';  Period = '2002-2019';
-    case 'SABER'; Period = '2002-2019';
-    case 'AIRS';  Period = '2002-2019';
-    case 'MLS';   Period = '2004-2019';
-  end
-  text(datenum(2002,12,30),LabelShift.*(YLim(2)-YLim(1))+YLim(2)-0.75.*(YLim(2)-YLim(1)),['z=',num2str(round(Settings.HeightLevel)),'km, ',Period],'HorizontalAlignment','right');
+  Used = nansum(TimeSeries(:,:,iVar),2);
+  LastYear  = Years(max(find(Used ~= 0)));  
+  FirstYear = Years(min(find(Used ~= 0)));
+  Period = [num2str(FirstYear),'-',num2str(LastYear)];
+  text(datenum(2002,12,30),LabelShift.*(YLim(2)-YLim(1))+YLim(2)-0.75.*(YLim(2)-YLim(1)),['z=',num2str(round(Settings.Height{iVar})),'km, ',Period],'HorizontalAlignment','right');
   
   %labelling
   ylabel([VarInfo{2},'  [',VarInfo{3},']'])
