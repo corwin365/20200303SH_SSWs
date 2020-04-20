@@ -10,61 +10,65 @@ clearvars
 %% datasets
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Settings.DataSets{ 1} = 'ECMWF';
-Settings.InstName{ 1} = 'ERA5';
-Settings.Variables{1} = 'U';
-Settings.Units{    1} = 'm/s';
-Settings.FullName{ 1} = 'Zonal Wind Speed';
-Settings.LatRange{ 1} = [-65,-55];
+Settings.DataSets{ 1} = 'AIRS';
+Settings.InstName{ 1} = 'AIRS';
+Settings.Variables{1} = 'MF';
+Settings.Units{    1} = 'mPa';
+Settings.FullName{ 1} = 'Momentum Flux';
+Settings.LatRange{ 1} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 1} = [-80,-60]+[-2,2];
 Settings.Label{    1} = 'top';
 Settings.Height{   1} = 30;
 
-Settings.DataSets{ 2} = 'MLS';
-Settings.InstName{ 2} = 'MLS';
-Settings.Variables{2} = 'O3';
-Settings.Units{    2} = 'ppm';
-Settings.FullName{ 2} = 'Ozone Mixing Ratio';
-Settings.Scale{    2} = 1e6;
-Settings.LatRange{ 2} = [-65,-55];
-Settings.Label{    2} = 'bottom';
+Settings.DataSets{ 2} = 'AIRS';
+Settings.InstName{ 2} = 'AIRS';
+Settings.Variables{2} = 'A';
+Settings.Units{    2} = 'K';
+Settings.FullName{ 2} = 'Wave Amplitude';
+Settings.LatRange{ 2} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 2} = [-80,-60]+[-2,2];
+Settings.Label{    2} = 'top';
 Settings.Height{   2} = 30;
 
-Settings.DataSets{ 3} = 'ECMWF';
-Settings.InstName{ 3} = 'ERA5';
-Settings.Variables{3} = 'T';
-Settings.Units{    3} = 'K';
-Settings.FullName{ 3} = 'Temperature';
-Settings.LatRange{ 3} = [-65,-55];
-Settings.Label{    3} = 'bottom';
+Settings.DataSets{ 3} = 'MLS';
+Settings.InstName{ 3} = 'MLS';
+Settings.Variables{3} = 'MF';
+Settings.Units{    3} = 'mPa';
+Settings.FullName{ 3} = 'Momentum Flux';
+Settings.LatRange{ 3} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 3} = [-80,-60]+[-2,2];
+Settings.Label{    3} = 'top';
 Settings.Height{   3} = 30;
 
 Settings.DataSets{ 4} = 'MLS';
 Settings.InstName{ 4} = 'MLS';
-Settings.Variables{4} = 'T';
+Settings.Variables{4} = 'A';
 Settings.Units{    4} = 'K';
-Settings.FullName{ 4} = 'Temperature';
-Settings.LatRange{ 4} = [-65,-55];
-Settings.Label{    4} = 'bottom';
+Settings.FullName{ 4} = 'Wave Amplitude';
+Settings.LatRange{ 4} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 4} = [-80,-60]+[-2,2];
+Settings.Label{    4} = 'top';
 Settings.Height{   4} = 30;
 
 Settings.DataSets{ 5} = 'AIRS';
 Settings.InstName{ 5} = 'AIRS';
-Settings.Variables{5} = 'T';
-Settings.Units{    5} = 'K';
-Settings.FullName{ 5} = 'Temperature';
-Settings.LatRange{ 5} = [-65,-55];
+Settings.Variables{5} = 'Mz';
+Settings.Units{    5} = 'mPa';
+Settings.FullName{ 5} = 'Zonal Momentum Flux';
+Settings.LatRange{ 5} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 5} = [-80,-60]+[-2,2];
 Settings.Label{    5} = 'bottom';
 Settings.Height{   5} = 30;
 
-% Settings.DataSets{ 6} = 'SABER';
-% Settings.InstName{ 6} = 'SABER';
-% Settings.Variables{6} = 'T';
-% Settings.Units{    6} = 'K';
-% Settings.FullName{ 6} = 'Temperature';
-% Settings.LatRange{ 6} = [-50,-40];
-% Settings.Label{    6} = 'top';
-% Settings.Height{   6} = 30;
-
+Settings.DataSets{ 6} = 'AIRS';
+Settings.InstName{ 6} = 'AIRS';
+Settings.Variables{6} = 'Mm';
+Settings.Units{    6} = 'mPa';
+Settings.FullName{ 6} = 'Merid. Momentum Flux';
+Settings.LatRange{ 6} = [-60,-45]+[-2.5,2.5];
+Settings.LonRange{ 6} = [-80,-60]+[-2,2];
+Settings.Label{    6} = 'top';
+Settings.Height{   6} = 30;
 
 %% special years
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -94,11 +98,11 @@ Settings.PCColours   = colorGradient([1,1,1].*0.8,  ...
                                      (numel(Settings.Percentiles))./2);
 
 %how many days to smooth by?
-Settings.SmoothDays = 3; %main time series
-Settings.ClimSmooth = 3; %climatology bands
+Settings.SmoothDays = 5; %main time series
+Settings.ClimSmooth = 5; %climatology bands
 
 
 %% run
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-plot_zms
+plot_boxes
