@@ -1,80 +1,15 @@
-clearvars
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %plot zonal mean time series of basic variables
 %
-%Corwin Wright, c.wright@bath.ac.uk, 03/MAR/2020
+%settings are in files prefixed 'settings_', this just plots
+%Corwin Wright, c.wright@bath.ac.uk, 20/APR/2020
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% settings
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%where's the data
-Settings.DataSets{ 1} = 'MLS';
-Settings.Variables{1} = 'O3';
-Settings.Units{    1} = 'ppm';
-Settings.FullName{ 1} = 'Ozone Mixing Ratio';
-Settings.Scale{    1} = 1e6;
-Settings.LatRange{ 1} = [-65,-55];
-
-Settings.DataSets{ 2} = 'MLSpw';
-Settings.Variables{2} = 'Sum of PWs';
-Settings.Units{    2} = 'K';
-Settings.FullName{ 2} = 'Sum of PWs mode 1-3';
-Settings.LatRange{ 2} = [-65,-55];
-
-Settings.DataSets{ 3} = 'ECMWF';
-Settings.Variables{3} = 'T';
-Settings.Units{    3} = 'K';
-Settings.FullName{ 3} = 'Temperature';
-Settings.LatRange{ 3} = [-65,-55];
-
-Settings.DataSets{ 4} = 'ECMWF';
-Settings.Variables{4} = 'U';
-Settings.Units{    4} = 'm/s';
-Settings.FullName{ 4} = 'Zonal Wind Speed';
-Settings.LatRange{ 4} = [-65,-55];
-
-Settings.DataSets{ 5} = 'SABERpw';
-Settings.Variables{5} = 'Sum of PWs';
-Settings.Units{    5} = 'K';
-Settings.FullName{ 5} = 'Sum of PWs mode 1-3';
-Settings.LatRange{ 5} = [-50,-45];
-
-%which years are special?
-%all other years from 2002 to 2019 that we have data for locally will be the background
-Settings.SpecialYears = [2002,2010,2019];%,2010];
-
-%point out the minimum U time
-Settings.Minima(1) = 731486;
-Settings.Minima(2) = 731426;
-Settings.Minima(3) = 731473;
-
-%and what are their colours?
-Settings.SpecialColours(1,:) = [0.8,0,0];
-Settings.SpecialColours(2,:) = [255,128,0]./255;
-Settings.SpecialColours(3,:) = [0,0,1];
-
-%what height level?
-Settings.HeightLevel =  30;
-
-%what percentiles for the background shading? 
-Settings.Percentiles = linspace(0,100,10);
-Settings.PCColours   = colorGradient([1,1,1].*0.8,  ...
-                                     [1,1,1].*0.25, ...
-                                     (numel(Settings.Percentiles))./2);
-
-%how many days to smooth by?
-Settings.SmoothDays = 3; %main time series
-Settings.ClimSmooth = 3; %climatology bands
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% load and prep data
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Years = 2002:1:2019;
 TimeSeries = NaN(numel(Years),365,numel(Settings.DataSets));
@@ -85,9 +20,26 @@ for iDS = 1:1:numel(Settings.DataSets)
   for iYear=1:1:numel(Years)
     textprogressbar(iYear./numel(Years).*100)
   
+    
+    %gw or raw data? No semantic differences, just a difference in naming convention
+    switch Settings.Variables{iDS}
+      case {'U','T','PV','O3','dPV','PW mode 1','PW mode 2','PW mode 3','Sum of PWs'}; 
+        Settings.Type = 'raw';
+      case {'A','MF','Mz','Mm','Lz','Lh'};                                
+        Settings.Type = 'gws';
+      otherwise; stop
+    end
+    
+    
+    
     %do we have data for this instrument and year?
-    DataFile = ['../data/rawmaps_',Settings.DataSets{iDS}, ...
-                '_',num2str(Years(iYear)),'.mat'];
+    if strcmp(Settings.Type,'raw') == 1;
+      DataFile = ['../data/rawmaps_',Settings.DataSets{iDS}, ...
+                  '_',num2str(Years(iYear)),'.mat'];
+    elseif strcmp(Settings.Type,'gws') == 1;
+      DataFile = ['../data/maps_',Settings.DataSets{iDS}, ...
+                  '_',num2str(Years(iYear)),'.mat'];
+    end
     if ~exist(DataFile); clear DataFile; continue; end
     
     %load file
@@ -178,11 +130,7 @@ for iVar=1:1:numel(Settings.DataSets)
   if nansum(VarData(:)) == 0; continue; end
   YLim = [min(VarData(:)),max(VarData(:))];
   YLim = YLim + [-1,1].*0.02.*range(YLim(:));
-  
-  
-  %for some variable,s we need to shif the labelling
-  LabelShift = -0.15;
-  if strcmp(VarInfo{1},'ERA5') && strcmp(VarInfo{2},'U'); LabelShift = 0.55;end
+
   
   
   %prepare panel
@@ -263,6 +211,11 @@ for iVar=1:1:numel(Settings.DataSets)
   LatCentre = mean(Settings.LatRange{iVar});
   if LatCentre > 0; LatCentre = [num2str(abs(LatCentre)),'\pm',num2str(range(Settings.LatRange{iVar})./2),'N'];
   else;             LatCentre = [num2str(abs(LatCentre)),'\pm',num2str(range(Settings.LatRange{iVar})./2),'S'];
+  end
+  
+  %shift labels up?
+  if strcmp(Settings.Label{iVar},'top'); LabelShift = 0.55;
+  else                                   LabelShift = -0.15;
   end
   
   text(datenum(2002,12,30),LabelShift.*(YLim(2)-YLim(1))+YLim(2)-0.65.*(YLim(2)-YLim(1)),[LatCentre,' mean'],'color','k','HorizontalAlignment','right')
